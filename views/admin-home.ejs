@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="cache-control" content="no-cache, must-revalidate, post-check=0, pre-check=0">
+    <meta http-equiv="expires" content="0">
+    <meta http-equiv="pragma" content="no-cache">
+    <!-- <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../../../favicon.ico"> -->
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <title>Admin Dashboard</title>
+  </head>
+<body>
+  <div>
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+          <ul class="navbar-nav mr-auto">
+            
+            <li class="nav-item active text-white">
+              <h1>Admin Dashboard</h1>
+            </li>
+          </ul>
+          <div class="nav-item active">
+            <a class="nav-link btn btn-primary" href="/logout">Logout</a>
+          </div>
+        </div>
+      </nav>
+  </div>
+  <!-- Create User Form -->
+  <div class="container pt-5">
+    <form action="/createuser" method="post">
+      <input type="text"name="first_name" id="first_name" placeholder="First Name">
+      <input type="text" name="last_name" id="first_name" placeholder="Last Name">
+      <input type="text"name="email" id="email" placeholder="Email Address">
+      <input type="password"name="pw_confirm" id="pw_confirm" placeholder="Password">
+      <button class="btn btn-info" type="submit">Create User</button>
+      <p class="text-success text-center"><%= message %></p>
+    </form>
+    <form action="/finduser" method="post">
+      <input type="text"name="email" id="email" placeholder="Email Address">
+      <button class="btn btn-warning" type="submit">Find User</button>
+    </form>
+    <p class="text-success text-center"><%= findmessage %></p>
+    <% if (userexist) { %>
+      <form method="post" action="/edituser">
+        <div class="form-group">
+          <label for="last_name">First Name</label>
+          <input class="form-control" type="text" name="first_name" value="<%= userdetails.Fname %>" />
+        </div>
+        <div class="form-group">
+          <label for="last_name">Last Name</label>
+        <input class="form-control" type="text" name="last_name" value="<%= userdetails.LName %>" />
+        </div>
+        <div class="form-group">
+          <label for="last_name">Email</label>
+        <input class="form-control" type="email" name="email" value="<%= userdetails.Email %>" />
+        </div>
+        <div class="form-group">
+          <label for="last_name">Password</label>
+        <input class="form-control" type="password" name="password" value="<%= userdetails.Password %>" />
+        </div>   
+        <button class="btn btn-success" type="submit">Update User</button>
+        <a class="btn btn-danger" href="/deleteuser/<%= userdetails.Email %>">Delete User</a>
+      </form>
+    <% }%>
+    <p class="text-success text-center"><%= updatemessage %></p>
+  </div>
+</body>
+</html>

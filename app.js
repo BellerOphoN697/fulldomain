@@ -47,11 +47,23 @@ app.post('/login', async (req, res) => {
     res.render('login', { message: 'Incorrect username or password' });
   }
 });
+/*
 app.get('/home', requireLogin, (req, res) => {  
   res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
   res.header('Expires', '-1');
   res.header('Pragma', 'no-cache');
   res.render('home');
+});
+*/
+app.get('/home', (req, res) => {
+  // Check if the user is authenticated by verifying session data
+  if (req.session && req.session.user) {
+    // User is authenticated, proceed to the dashboard
+    res.render('home');
+  } else {
+    // User is not authenticated, redirect to the login page
+    res.redirect('/login');
+  }
 });
 
 app.get('/logout', (req, res) => {

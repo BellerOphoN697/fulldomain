@@ -25,7 +25,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(session({
   secret: 'your-secret-key',
   resave: false,
-  saveUninitialized: true
+  saveUninitialized: true,
+  cookie: { secure: false }
 }));
 function requireLogin(req, res, next) {
   if (!req.session.user) {
@@ -59,6 +60,9 @@ app.get('/home', (req, res) => {
   // Check if the user is authenticated by verifying session data
   if (req.session && req.session.user) {
     // User is authenticated, proceed to the dashboard
+    res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+  res.header('Expires', '-1');
+  res.header('Pragma', 'no-cache');
     res.render('home');
   } else {
     // User is not authenticated, redirect to the login page

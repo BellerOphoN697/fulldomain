@@ -34,41 +34,55 @@ function requireLogin(req, res, next) {
   }
   next();
 }
+
 // User Login
-app.get('/login', async (req, res) => {
+app.get('/login', async (req, res) => {  
+  res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+  res.header('Expires', '-1');
+  res.header('Pragma', 'no-cache');
   res.render('login', { message: '' });
 });
 app.post('/login', async (req, res) => {
+    
+  res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+  res.header('Expires', '-1');
+  res.header('Pragma', 'no-cache');
+  
   const { username, password } = req.body;
   const user = await UserModel.findOne({ Email: username });
+  
   if (user && user.Password === password) {
     req.session.user = username;
+    
     res.redirect('/home');
+
   } else {
     res.render('login', { message: 'Incorrect username or password' });
   }
 });
-/*
+
 app.get('/home', requireLogin, (req, res) => {  
   res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
   res.header('Expires', '-1');
   res.header('Pragma', 'no-cache');
+
   res.render('home');
 });
-*/
+/*
 app.get('/home', (req, res) => {
   // Check if the user is authenticated by verifying session data
   if (req.session && req.session.user) {
     // User is authenticated, proceed to the dashboard
     res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
-  res.header('Expires', '-1');
-  res.header('Pragma', 'no-cache');
+    res.header('Expires', '-1');
+    res.header('Pragma', 'no-cache');
     res.render('home');
   } else {
     // User is not authenticated, redirect to the login page
     res.redirect('/login');
   }
 });
+*/
 
 app.get('/logout', (req, res) => {
   

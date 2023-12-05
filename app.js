@@ -37,18 +37,14 @@ function requireLogin(req, res, next) {
 
 // User Login
 app.get('/login', async (req, res) => {  
-  res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
-  res.header('Expires', '-1');
-  res.header('Pragma', 'no-cache');
+  res.set({
+    'Cache-Control': 'no-cache, no-store, must-revalidate',
+    'Pragma' : 'no-cache',
+    'Expires' : '0',
+})
   res.render('login', { message: '' });
 });
-app.post('/login', async (req, res) => {
-  res.redirect('/home');
-    
-  res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
-  res.header('Expires', '-1');
-  res.header('Pragma', 'no-cache');
-  
+app.post('/login', async (req, res) => {  
   const { username, password } = req.body;
   const user = await UserModel.findOne({ Email: username });
   
@@ -62,12 +58,12 @@ app.post('/login', async (req, res) => {
   }
 });
 
-app.get('/home', requireLogin, (req, res) => {  
+app.get('/home', requireLogin, (req, res) => { 
+  
   res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
   res.header('Expires', '-1');
   res.header('Pragma', 'no-cache');
-
-  res.render('home');
+  res.render('home')  
 });
 /*
 app.get('/home', (req, res) => {

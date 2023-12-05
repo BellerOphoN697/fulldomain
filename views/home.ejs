@@ -54,5 +54,15 @@
         </div>
       </div>
     </main>
+    <script>
+    // Redirect when the back button is pressed
+    window.addEventListener('popstate', function (event) {
+      // Redirect to a specific page
+      window.location.href = '/your-specific-page';
+    });
+
+    // Push a state to the history to make sure popstate is triggered
+    history.pushState({ page: 1 }, "title 1", "#");
+  </script>
   </body>
 </html>

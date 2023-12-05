@@ -134,9 +134,6 @@ app.get('/admin-login', (req, res) => {
 });
 
 app.post('/admin-login', (req, res) => {
-  res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
-  res.header('Expires', '-1');
-  res.header('Pragma', 'no-cache');
   const Username = 'admin';
   const Password = 'admin';
   const { username, password } = req.body;
@@ -147,6 +144,7 @@ app.post('/admin-login', (req, res) => {
     res.render('admin-login', { message: 'Incorrect username or password' });
   }
 });
+
 app.post('/createuser', async (req, res) => {
   const mail = await UserModel.findOne({ Email: req.body.email });
   if(mail){
@@ -159,11 +157,13 @@ app.post('/createuser', async (req, res) => {
       Email: req.body.email,
       Password: req.body.pw_confirm,
      }) 
-      res.render('admin-home', { message: 'Successfully created the account',userdetails,findmessage:'',updatemessage:'',userexist });
+      res.render('admin-home', { message: 'Succefully created the account',userdetails,findmessage:'',updatemessage:'',userexist });
   }
 });
+
 app.post('/finduser', async (req, res) => {
   const mail = await UserModel.findOne({ Email: req.body.email });
+  const uid = await UserModel.findOne({ Email: req.body.email },{_id:1});
   if(!mail){
     userexist=false
     res.render('admin-home', { message: '',userdetails,findmessage:'user does not exist',updatemessage:'',userexist });
@@ -171,7 +171,8 @@ app.post('/finduser', async (req, res) => {
   else{
     userexist=true
     userdetails = {
-      Fname:mail.First_name,
+      UID: mail._id,
+      Fname: mail.First_name,
       LName: mail.Last_Name,
       Email: mail.Email,
       Password: mail.Password,
@@ -180,19 +181,30 @@ app.post('/finduser', async (req, res) => {
   }
 });
 app.post('/edituser', async (req, res) => {
-  const { first_name, last_name, email, password } = req.body;
+  const { uid, first_name, last_name, email, password } = req.body;
+
   const user = await UserModel.findOneAndUpdate(
-    { Email: email },
-    { First_name: first_name, Last_Name: last_name, Password: password },
+    { _id: uid },
+    { First_name: first_name, Last_Name: last_name, Password: password, Email: email },
     { new: true } 
   );
   res.render('admin-home', { message:'',updatemessage:'User data updated', userdetails,findmessage:'',userexist });
 });
 app.get('/deleteuser/:email', async (req, res) => {
   const email = req.params.email;
-  await UserModel.findOneAndRemove({ Email: email });
+  await UserModel.findOneAndDelete({ Email: email });
   res.render('admin-home', { message:'',updatemessage:'User data deleted', userdetails,findmessage:'',userexist });
 });
+
+
+
+app.get("/index", requiredLogin,  async (req, res) =>{   
+    const details = await UserModel.find();
+    res.render("index", { details })
+      
+  })
+
+
 app.get('/admin-home', requiredLogin, (req, res) => {
   res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
   res.header('Expires', '-1');

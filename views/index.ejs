@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="cache-control" content="no-cache, must-revalidate, post-check=0, pre-check=0">
+    <meta http-equiv="expires" content="0">
+    <meta http-equiv="pragma" content="no-cache">
+    <!-- <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../../../favicon.ico"> -->
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <title>Admin Dashboard</title>
+  </head>
+<body>
+  <div>
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+          <ul class="navbar-nav mr-auto">
+            
+            <li class="nav-item active text-white">
+              <h1>Admin Dashboard</h1>
+            </li>
+          </ul>
+
+          <div class="nav-item active p-1">
+            <a class="nav-link btn btn-info" onclick="history.back()">Go Back</a>
+          </div>
+          <div class="nav-item active">
+            <a class="nav-link btn btn-warning" href="/adlogout">Logout</a>
+          </div>
+        </div>
+      </nav>
+  </div>
+    <hr>
+    
+    <% if(details!=null) { %>
+    <table>
+    <tr>
+        <th>First Name</th>
+        <th>Last Name </th>
+        <th>Email</th>
+    </tr>
+    <% details.forEach(function(item){ %>
+    <tr>
+        <td><%= item.First_name%></td>
+        <td><%= item.Last_Name %></td>
+        <td><%= item.Email%></td>    
+    </tr>
+    <% }) %>
+    </table>
+    <% } %>
+
+    <script type="text/javascript"> 
+        window.history.forward(); 
+        function noBack() { 
+            window.history.forward(); 
+        } 
+      </script> 
+    </body>
+    </html>

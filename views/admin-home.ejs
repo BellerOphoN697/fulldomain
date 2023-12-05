@@ -23,6 +23,9 @@
               <h1>Admin Dashboard</h1>
             </li>
           </ul>
+          <div class="nav-item active p-1">
+            <a class="nav-link btn btn-info" href="/index">Show all</a>
+          </div>
           <div class="nav-item active">
             <a class="nav-link btn btn-primary" href="/logout">Logout</a>
           </div>
@@ -47,6 +50,10 @@
     <% if (userexist) { %>
       <form method="post" action="/edituser">
         <div class="form-group">
+          <label for="last_name">Unique ID</label>
+          <input class="form-control" type="text" name="uid" value="<%= userdetails.UID %>" />
+        </div>
+        <div class="form-group">
           <label for="last_name">First Name</label>
           <input class="form-control" type="text" name="first_name" value="<%= userdetails.Fname %>" />
         </div>
@@ -68,11 +75,5 @@
     <% }%>
     <p class="text-success text-center"><%= updatemessage %></p>
   </div>
-  <script type="text/javascript"> 
-    window.history.forward(); 
-    function noBack() { 
-        window.history.forward(); 
-    } 
-  </script> 
 </body>
 </html>

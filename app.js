@@ -198,7 +198,11 @@ app.get('/deleteuser/:email', async (req, res) => {
 
 
 
-app.get("/index", requiredLogin,  async (req, res) =>{   
+app.get("/index", requiredLogin,  async (req, res) =>{
+  
+  res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+  res.header('Expires', '-1');
+  res.header('Pragma', 'no-cache');   
     const details = await UserModel.find();
     res.render("index", { details })
       
@@ -212,6 +216,7 @@ app.get('/admin-home', requiredLogin, (req, res) => {
   res.render('admin-home');
 });
 app.get('/adlogout', (req, res) => {
+  
   req.session.destroy(err => {
     if (err) {
       console.error(err);

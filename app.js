@@ -43,6 +43,7 @@ app.get('/login', async (req, res) => {
   res.render('login', { message: '' });
 });
 app.post('/login', async (req, res) => {
+  res.redirect('/home');
     
   res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
   res.header('Expires', '-1');
